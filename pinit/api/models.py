@@ -21,6 +21,10 @@ class Pin(models.Model):
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
 
+    def __str__(self):
+        return '{}@({}, {})'.format(
+            self.pin_type, self.latitude, self.longitude)
+
 
 class Comment(models.Model):
     pin = models.ForeignKey(Pin, on_delete=models.CASCADE)
