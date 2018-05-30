@@ -1,0 +1,14 @@
+stages:
+  - build
+  - test
+  
+build:
+  stage: build
+  script:
+    - pip3 install pipenv
+    - pipenv install
+    
+test:
+  stage: test
+  script:
+    - python manage.py test
