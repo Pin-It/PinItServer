@@ -7,7 +7,8 @@ build:
   script:
     - pip3 install pipenv
     - pipenv install
-    - pipenv shell
+    - export VENV_HOME_DIR=$(pipenv --venv)
+    - source $VENV_HOME_DIR/bin/activate
     
 test:
   stage: test
