@@ -19,4 +19,4 @@ test:
 deploy:
   stage: deploy
   script:
-    - dpl --provider=heroku --app=gitlab-ci-python-test-prod --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=pin-it-app --api-key=$HEROKU_API_KEY
