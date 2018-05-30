@@ -8,6 +8,9 @@ build:
   script:
     - pip3 install pipenv
     - pipenv install
+    - export VENV_HOME_DIR=$(pipenv --venv)
+    - source $VENV_HOME_DIR/bin/activate
+    - python pinit/manage.py migrate
     
 test:
   stage: test
