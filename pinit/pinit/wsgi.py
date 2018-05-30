@@ -1,5 +1,5 @@
 """
-WSGI config for ping project.
+WSGI config for pinit project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ping.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pinit.settings")
 
 application = get_wsgi_application()

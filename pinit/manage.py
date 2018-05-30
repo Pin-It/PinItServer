@@ -3,7 +3,7 @@ import os
 import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ping.settings.dev")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pinit.settings.dev")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
