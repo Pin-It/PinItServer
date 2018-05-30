@@ -1,1 +1,1 @@
-web: gunicorn pinit.wsgi
+web: gunicorn pinit.wsgi --log-file -
