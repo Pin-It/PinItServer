@@ -10,14 +10,14 @@ build:
     - pipenv install
     - export VENV_HOME_DIR=$(pipenv --venv)
     - source $VENV_HOME_DIR/bin/activate
-    - python pinit/manage.py migrate
+    - python manage.py migrate
     
 test:
   stage: test
   script:
     - export VENV_HOME_DIR=$(pipenv --venv)
     - source $VENV_HOME_DIR/bin/activate
-    - python pinit/manage.py test
+    - python manage.py test
     
 deploy:
   stage: deploy
