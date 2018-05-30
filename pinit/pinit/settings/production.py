@@ -6,7 +6,7 @@ import os
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'pin-it-app.herokuapp.com']
 
 # Sensitive settings e.g. passwords should be stored in local.py
 try:
