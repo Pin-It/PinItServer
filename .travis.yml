@@ -21,8 +21,7 @@ script:
 # deploy to heroku
 deploy:
   provider: heroku
-  api_key:
-    secure: "dRAtHqfahBc2UXZbWtZ/X6p+el/uJMwVXoFcN4npSn68qS6w27vJwRcUo2LmumWdY2QlNU8Okn6IXzkYq7HuRrBUom+3xU2RiPDBrXbASV4Vx6APLmfzdR/bax2gFceHM+n18G3Vv/aKIuoNliwmPgla+gH0wt/0xxxLnueklj0Pe8l7DXOE4jUhLAOFk8BsBdsoDDGH3yVUworkIUjJsRDdBTeaNHcLQVQSoXxO2iZZmJjo7AZymibWvN6zicjlzI+C5AntflmazzWl58mNIacep5Ls3r9hCrTeUlxKjmsHno/43oeKtUMAaZlplvPerG9/+l+OzZOdC9QyFqkjow8tDlO8V3B01FiJDS3KJBiltNwQkF7YFuvQFrZgpYScxfmjSSjEnvtuKxPq+6qgOCu6T7tMOAUkqBUqE2DuvpjzrPKVmmF39xcJ3EaK+BQOmWGfWTbU7mJMG7UN8mIG0et4HLu/N3v/X4nMDlPdynFfJ3E0hc/+k0xcwdvCH7N6SH7xGjJOn91AuTwVxPyBWHj7Ic/dByHorXqJkFTcdRAH0Ya0eFKl6jyT7L+AayaigPRJrgpkz55aVlZHNwm/JeijAQrT2i0kUnxPEP0s8sK9507m0R3M/nv5L8RmY7YcV2nDly6eXZ7/OJGzuGC4k4JLE2FJTk7QYpsZa6DjWeU="
+  api_key: $HEROKU_API_KEY
   app: pin-it-app
   on:
     repo: Pin-It/PinItServer
