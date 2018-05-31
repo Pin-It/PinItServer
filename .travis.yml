@@ -1,22 +1,28 @@
 language: python
-
 services:
-  - postgresql
-
+- postgresql
 python:
-  - "3.6"
+- '3.6'
 
+# install dependencies
 before_install:
-  - pip install pipenv
-
+- pip install pipenv
 install:
-  - pipenv install
+- pipenv install
 
+# testing
 before_script:
-  - psql -c 'CREATE DATABASE test_db;' -U postgres
-
+- psql -c 'CREATE DATABASE test_db;' -U postgres
 env:
-  - DATABASE_URL=postgres://postgres@localhost/test_db
-
+- DATABASE_URL=postgres://postgres@localhost/test_db
 script:
-  - python manage.py test
+- python manage.py test
+
+# deploy to heroku
+deploy:
+  provider: heroku
+  api_key:
+    secure: P5SOnEmi7AajvII3xI4O8ecEMFGmeJombwwmo/f58Mkq0oyszr9TwpGZrLdQXYNCpTGdYqwp/CW8EaPMqU8KF0rc10UlpnkwJO7X62nQopFGbHLvzmb5fdlFEE6gho0nOPATEu64pu6/g37+ZniAUtzUT5JZqQl2Mxjm63sPCCD0htkQXmMOEeYEDSyPblZJIZCCYldyuy0RaSJ185bpWWM9dPyKQPnlgiKuKvYprpwK8GTQgxDlGPjQwHkilboJ8SLfwkOZdmGeBsmIk4YgqzIh5u5zbr/trfbkhJu5+q4ZuqIjHGHDvyVeJlie5uWOJTy+Lwc7Q+uv7zo+lOmuWOQ9hlkiXmREbZXPUrjSBc4PIVXLiKw1eioE4kW5UIbBBS79gsu55hAz/bSjbbFd9VOG3xZkZPohl/Ze3WTBIVH5SbySil/JMLU7EHOqypNL85SGSZq+aBDnUXnRCElhLrE+dPvn4Ibm8R3qkq34r2NeitD1TYS+zxaMjgGnlM2cOxsVM5dyudxvkS2S4Osaw+a1cZn4CVG8r0itcD36OseBY/pELNBfaBQhZOe08cHMadwkw80ZyUrhKU/+NyPwpQ9cGpVrNdfiyDK0IAi3DV04Aoj0A4JlykDXDZQIFg04ifMOjq2TN6eve/I24YLrg26I73HlP6ELcE3qB9su9sw=
+  app: pin-it-app
+  on:
+    repo: Pin-It/PinItServer
