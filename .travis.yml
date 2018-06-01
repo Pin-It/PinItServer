@@ -4,13 +4,14 @@ services:
 python:
 - '3.6'
 
+# install dependencies
+before_install:
+- pip install pipenv
+install:
+- pipenv install
+
 jobs:
   include:
-    - stage: build
-      script:
-      - pip install pipenv
-      - pipenv install
-
     - stage: tests
       env: DATABASE_URL=postgres://postgres@localhost/test_db
       script:
@@ -18,6 +19,7 @@ jobs:
       - python manage.py test
 
     - stage: deploy
+      install: skip
       script: skip
       deploy:
         provider: heroku
