@@ -14,13 +14,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='comment',
             name='by_user',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='api.UserProfile'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='api.UserProfile'),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='pin',
             name='by_user',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='api.UserProfile'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='api.UserProfile'),
             preserve_default=False,
         ),
     ]
