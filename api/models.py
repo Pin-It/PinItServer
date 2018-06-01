@@ -44,8 +44,7 @@ class Pin(models.Model):
     pin_type = models.IntegerField(choices=TYPE_CHOICES)
     latitude = models.DecimalField(max_digits=18, decimal_places=15)
     longitude = models.DecimalField(max_digits=18, decimal_places=15)
-    by_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
-                                null=True)
+    by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return '{}@({}, {})'.format(
@@ -55,5 +54,4 @@ class Pin(models.Model):
 class Comment(models.Model):
     pin = models.ForeignKey(Pin, on_delete=models.CASCADE)
     text = models.TextField()
-    by_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
-                                null=True)
+    by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
