@@ -1,29 +1,20 @@
 language: python
-services:
-- postgresql
-python:
-- '3.6'
+services: postgresql
+python: '3.6'
 
 # install dependencies
-before_install:
-- pip install pipenv
-install:
-- pipenv install
+before_install: pip install pipenv
+install: pipenv install
 
-jobs:
-  include:
-    - stage: tests
-      env: DATABASE_URL=postgres://postgres@localhost/test_db
-      script:
-      - psql -c 'CREATE DATABASE test_db;' -U postgres
-      - python manage.py test
+# testing
+before_script: psql -c 'CREATE DATABASE test_db;' -U postgres
+env: DATABASE_URL=postgres://postgres@localhost/test_db
+script: python manage.py test
 
-    - stage: deploy
-      install: skip
-      script: skip
-      deploy:
-        provider: heroku
-        api_key: $HEROKU_API_KEY
-        app: pin-it-app
-        on:
-          repo: Pin-It/PinItServer
+# deploy to heroku
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: pin-it-app
+  on:
+    repo: Pin-It/PinItServer
