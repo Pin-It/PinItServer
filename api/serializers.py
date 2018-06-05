@@ -46,10 +46,16 @@ class PinSerializer(serializers.HyperlinkedModelSerializer):
                                     decimal_places=lat_field.decimal_places)
     longitude = RoundingDecimalField(max_digits=lng_field.max_digits,
                                      decimal_places=lng_field.decimal_places)
+    comments = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='text',
+        source='comment_set'
+    )
 
     class Meta:
         model = Pin
-        fields = ('pin_type', 'latitude', 'longitude')
+        fields = ('id', 'pin_type', 'latitude', 'longitude', 'comments')
 
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
