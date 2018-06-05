@@ -58,7 +58,7 @@ class PinSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'pin_type', 'latitude', 'longitude', 'comments')
 
 
-class CommentSerializer(serializers.HyperlinkedModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('pin', 'text')
