@@ -15,3 +15,4 @@ class CommentAdmin(admin.ModelAdmin):
 class PinAdmin(admin.ModelAdmin):
     list_display = ('id', 'pin_type', 'latitude', 'longitude', 'by_user')
     list_display_links = list_display
+    readonly_fields = ('created_at',)
