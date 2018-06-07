@@ -9,6 +9,7 @@ admin.site.register(UserProfile)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('id', 'pin', 'text', 'by_user')
     list_display_links = list_display
+    readonly_fields = ('created_at',)
 
 
 @admin.register(Pin)

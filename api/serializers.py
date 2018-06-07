@@ -62,4 +62,4 @@ class PinSerializer(serializers.HyperlinkedModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('pin', 'text')
+        fields = ('pin', 'text', 'created_at')
