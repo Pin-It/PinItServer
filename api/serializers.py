@@ -52,11 +52,15 @@ class PinSerializer(serializers.HyperlinkedModelSerializer):
         slug_field='text',
         source='comment_set'
     )
+    likes = serializers.SerializerMethodField()
 
     class Meta:
         model = Pin
         fields = ('id', 'pin_type', 'latitude', 'longitude', 'created_at',
-                  'comments')
+                  'comments', 'likes')
+
+    def get_likes(self, pin):
+        return pin.like_set.count()
 
 
 class CommentSerializer(serializers.ModelSerializer):
