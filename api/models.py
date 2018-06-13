@@ -75,3 +75,6 @@ class Like(models.Model):
     by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                                 default=get_current_user)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('pin', 'by_user')

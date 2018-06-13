@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
 from .models import Comment, Like, Pin
 
@@ -70,6 +71,16 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class LikeSerializer(serializers.ModelSerializer):
+    by_user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
     class Meta:
         model = Like
-        fields = ('pin', 'created_at')
+        fields = ('pin', 'created_at', 'by_user')
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Like.objects.all(),
+                fields=('pin', 'by_user')
+            )
+        ]
