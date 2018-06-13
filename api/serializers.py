@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Comment, Pin
+from .models import Comment, Like, Pin
 
 
 class RoundingDecimalField(serializers.DecimalField):
@@ -54,7 +54,7 @@ class PinSerializer(serializers.HyperlinkedModelSerializer):
     )
     likes = serializers.IntegerField(
         source='like_set.count',
-        read_only=True
+        read_only=True,
     )
 
     class Meta:
@@ -67,3 +67,9 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('pin', 'text', 'created_at')
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ('pin', 'created_at')

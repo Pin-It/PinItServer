@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from .models import Comment, Pin
-from .serializers import CommentSerializer, PinSerializer
+from .models import Comment, Like, Pin
+from .serializers import CommentSerializer, LikeSerializer, PinSerializer
 
 
 class PinViewSet(viewsets.ModelViewSet):
@@ -12,3 +12,8 @@ class PinViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+
+class LikeViewSet(viewsets.ModelViewSet):
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
