@@ -5,7 +5,7 @@ from .serializers import CommentSerializer, LikeSerializer, PinSerializer
 
 
 class PinViewSet(viewsets.ModelViewSet):
-    queryset = Pin.objects.all()
+    queryset = Pin.objects.all().prefetch_related('comment_set', 'like_set')
     serializer_class = PinSerializer
 
 
