@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.mixins import DestroyModelMixin
 
 from .models import Comment, Like, Pin
 from .serializers import CommentSerializer, LikeSerializer, PinSerializer
@@ -14,7 +15,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
 
-class LikeViewSet(viewsets.ModelViewSet):
+class LikeViewSet(viewsets.ModelViewSet, DestroyModelMixin):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
 
