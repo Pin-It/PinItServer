@@ -57,11 +57,20 @@ class PinSerializer(serializers.HyperlinkedModelSerializer):
         source='like_set.count',
         read_only=True,
     )
+    liked_by_me = serializers.SerializerMethodField()
 
     class Meta:
         model = Pin
         fields = ('id', 'pin_type', 'latitude', 'longitude', 'created_at',
-                  'comments', 'likes')
+                  'comments', 'likes', 'liked_by_me')
+
+    def get_liked_by_me(self, pin):
+        user = self.context['request'].user
+        try:
+            pin.like_set.get(by_user=user)
+            return True
+        except Like.DoesNotExist:
+            return False
 
 
 class CommentSerializer(serializers.ModelSerializer):
