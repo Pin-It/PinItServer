@@ -28,11 +28,6 @@ def create_user_profile(sender, instance, created, **kwargs):
         UserProfile.objects.create(user=instance)
 
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.userprofile.save()
-
-
 class Pin(models.Model):
     PICKPOCKET = 1
     DRUNK = 2
