@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'fcm_django',
     'rest_framework',
     'rest_framework.authtoken',
     'api',
@@ -117,6 +118,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
+}
+
+
+# Firebase Cloud Framework settings
+FCM_DJANGO_SETTINGS = {
+    'FCM_SERVER_KEY': os.environ.get('FCM_SERVER_KEY'),
 }
 
 
