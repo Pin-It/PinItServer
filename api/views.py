@@ -1,5 +1,8 @@
+from fcm_django.api.rest_framework import FCMDeviceViewSet
+
 from rest_framework import viewsets
 from rest_framework.mixins import DestroyModelMixin
+from rest_framework.permissions import AllowAny
 
 from .models import Comment, Like, Pin
 from .serializers import CommentSerializer, LikeSerializer, PinSerializer
@@ -30,3 +33,7 @@ class LikeViewSet(viewsets.ModelViewSet, DestroyModelMixin):
         if pin is not None:
             queryset = queryset.filter(pin=pin)
         return queryset
+
+
+class DeviceViewSet(FCMDeviceViewSet):
+    permission_classes = (AllowAny,)
