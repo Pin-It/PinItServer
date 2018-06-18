@@ -1,3 +1,8 @@
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from fcm_django.models import FCMDevice
+
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
@@ -98,3 +103,14 @@ class DeviceLocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = DeviceLocation
         fields = ('latitude', 'longitude')
+
+
+@receiver(post_save, sender=Pin)
+def new_pin_added(sender, instance, created, **kwargs):
+    data = PinSerializer(instance=instance).data
+    devices = FCMDevice.objects.all()
+    devices.send_message(
+        title='Pin-It',
+        body='New pin added near you!',
+        data=data,
+    )
