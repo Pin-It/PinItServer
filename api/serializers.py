@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from .models import Comment, Like, Pin
+from .models import Comment, Like, Pin, DeviceLocation
 
 
 class RoundingDecimalField(serializers.DecimalField):
@@ -84,3 +84,17 @@ class LikeSerializer(serializers.ModelSerializer):
                 fields=('pin', 'by_user')
             )
         ]
+
+
+class DeviceLocationSerializer(serializers.ModelSerializer):
+    lat_field = Pin._meta.get_field('latitude')
+    lng_field = Pin._meta.get_field('longitude')
+
+    latitude = RoundingDecimalField(max_digits=lat_field.max_digits,
+                                    decimal_places=lat_field.decimal_places)
+    longitude = RoundingDecimalField(max_digits=lng_field.max_digits,
+                                     decimal_places=lng_field.decimal_places)
+
+    class Meta:
+        model = DeviceLocation
+        fields = ('latitude', 'longitude')

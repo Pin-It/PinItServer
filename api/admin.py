@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from .models import Comment, Pin, Like, UserProfile
+from .models import Comment, Pin, Like, DeviceLocation, UserProfile
 
 admin.site.register(Like)
 admin.site.register(UserProfile)
+admin.site.register(DeviceLocation)
 
 
 @admin.register(Comment)

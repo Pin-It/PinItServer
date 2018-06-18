@@ -1,11 +1,14 @@
+from fcm_django.models import FCMDevice
 from fcm_django.api.rest_framework import FCMDeviceViewSet
 
 from rest_framework import viewsets
-from rest_framework.mixins import DestroyModelMixin
+from rest_framework import mixins
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny
 
-from .models import Comment, Like, Pin
-from .serializers import CommentSerializer, LikeSerializer, PinSerializer
+from .models import Comment, Like, Pin, DeviceLocation
+from .serializers import CommentSerializer, LikeSerializer, PinSerializer, \
+    DeviceLocationSerializer
 
 
 class PinViewSet(viewsets.ModelViewSet):
@@ -18,7 +21,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
 
-class LikeViewSet(viewsets.ModelViewSet, DestroyModelMixin):
+class LikeViewSet(viewsets.ModelViewSet, mixins.DestroyModelMixin):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
 
@@ -33,6 +36,30 @@ class LikeViewSet(viewsets.ModelViewSet, DestroyModelMixin):
         if pin is not None:
             queryset = queryset.filter(pin=pin)
         return queryset
+
+
+class DeviceLocationViewSet(mixins.RetrieveModelMixin,
+                            mixins.UpdateModelMixin,
+                            viewsets.GenericViewSet):
+    queryset = DeviceLocation.objects.all()
+    serializer_class = DeviceLocationSerializer
+    lookup_field = 'device__registration_id'
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        user = self.request.user
+        return DeviceLocation.objects.filter(device__user_id=user.id)
+
+    def get_object(self):
+        user = self.request.user
+        device_token = self.kwargs[self.lookup_field]
+        device = get_object_or_404(FCMDevice.objects.all(),
+                                   registration_id=device_token,
+                                   user_id=user.id,
+                                   active=True)
+        (obj, _) = self.get_queryset().get_or_create(device=device)
+        self.check_object_permissions(self.request, obj)
+        return obj
 
 
 class DeviceViewSet(FCMDeviceViewSet):

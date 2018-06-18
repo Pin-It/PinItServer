@@ -5,6 +5,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from fcm_django.models import FCMDevice
+
 from .middleware.current_user import get_current_user
 
 
@@ -73,3 +75,16 @@ class Like(models.Model):
 
     class Meta:
         unique_together = ('pin', 'by_user')
+
+
+class DeviceLocation(models.Model):
+    device = models.OneToOneField(FCMDevice, on_delete=models.CASCADE,
+                                  primary_key=True)
+    latitude = models.DecimalField(max_digits=18, decimal_places=15,
+                                   null=True, blank=True)
+    longitude = models.DecimalField(max_digits=18, decimal_places=15,
+                                    null=True, blank=True)
+
+    def __str__(self):
+        return '{}@({}, {})'.format(
+            str(self.device), self.latitude, self.longitude)
