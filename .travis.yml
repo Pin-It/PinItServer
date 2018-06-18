@@ -4,7 +4,7 @@ python: '3.6'
 
 # install dependencies
 before_install:
-  - openssl enc aes-256-cbc -d -base64
+  - openssl enc -aes-256-cbc -d -base64
     -in pinit-firebase-adminsdk.json.enc -out pinit-firebase-adminsdk.json
     -K $encrypted_45046c08f53f_key -iv $encrypted_45046c08f53f_iv
   - pip install pipenv
