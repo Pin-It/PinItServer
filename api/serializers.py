@@ -113,7 +113,6 @@ class DeviceLocationSerializer(serializers.ModelSerializer):
 def new_pin_added(sender, instance, created, **kwargs):
     data = PinSerializer(instance=instance).data
     data = {k: str(v) for k, v in data.items()}
-    devices = FCMDevice.objects.all()
     message = messaging.Message(
         android=messaging.AndroidConfig(
             ttl=datetime.timedelta(seconds=3600),
@@ -125,8 +124,9 @@ def new_pin_added(sender, instance, created, **kwargs):
         ),
         data=data,
     )
-    for device in devices:
-        message.token = device.registration_id
+    registration_ids = FCMDevice.objects.values('registration_id').distinct()
+    for reg_id in registration_ids:
+        message.token = reg_id
         try:
             messaging.send(message)
             print('Sending message:', message)
