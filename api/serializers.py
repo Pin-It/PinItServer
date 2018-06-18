@@ -129,5 +129,6 @@ def new_pin_added(sender, instance, created, **kwargs):
         message.token = device.registration_id
         try:
             messaging.send(message)
+            print('Sending message:', message)
         except Exception:
             pass
