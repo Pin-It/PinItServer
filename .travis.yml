@@ -1,24 +1,24 @@
 language: python
 services: postgresql
 python: '3.6'
-
-# install dependencies
+env:
+  matrix:
+  - DATABASE_URL=postgres://postgres@localhost/test_db
+  global:
+    - secure: R3attgnTJsmodqfzYnrUEgQHWfLOiNaz0ZSmby0iI8sKLT9rB6oVGn7J1PG/n5KY2wEc1k8sNQbssE1NUCjr1FBf2YnEo7mDyVKSVi2SunyjWSbMkaXhhv7RcQsWjl24AQxA5Q8YM4ytQSRCy0/DveLQ1XwSO1rBajZBQIUWfW1iGxJfkUuv8IxvfO3JEO3LnPaWaQhnPJ3xB50/rILq166En+fclWy8k9YaZT7DL1UJzeDNd5pM2bW2CV8mC3r99lyBPCq6rVTdhhzkFv5oXSfkF3T+reaNO+anRwZXw31g8JLfAErDD4LHkhJk4RFhRbZHg9LLVgyw4hBLnmZvNjabHnKKQN1xPD163hbXCVJRkob10BeitxFdJ4XPCqL1J6BmcvgEWyQDcexDWD/EiBo/pV2zhTjL1KCzMhMK4g4UEQgUxWaywgGeDlSYhfRxPaYXICJEeMA6EVhfDr9sCgrkZ/bRmh3hFfWUSahFs7vMfFKrRM1nPyQdCuRuBY+O0hmyh2n7sgZqvkl3+O8koZ972TYf08R9pNecrmki3BnGQcrI6WMcB27V3aleh6vS6oUcskv8+6wZO3vl0zp0hrIlb2Pp9tQElVVUZbZpWed3GvmIoZAYDziepyLO568s6GGFlFG98NtTxBivdNXn84w3ECV7eW4FJPVMgiklWMQ=
+    - secure: LmNAPRj/SEltKEiUDXTkT5XUkHOkCiq30tgLhH9qH3zjzZuudht6mwAHq9O+1FuIncL8gNQQaP3Y+pUstOITS+5Nrmek4tiNaLZkzv2bgcVAXyIyiErXQt+E4m4xVjGFH6PpzuBSfa5tcWhIrug226eNJQEg7fX1p5oIWH7yhzQ9tkxkU5YJsJdMgEE2kAQnNtHUGiSRw/Zd4OmsWS531oxaeJov3r6mdj83p6cSz+4awWEmED9JBcbxlsuyv9un5qQayjGvj2t5DAfR/YMwAk5weFhAe+1j+zuHzVC4Gwqn4i3z6UHbftQnFwRnMAk2Vv84Tf/Jor94QZvhIjeli8nGlW0SDAh3bpK1rcaoMNs8m5hf+zY2BZqwR6zkO3FjYQH21yErqR1b5H1/xKF2nZQPFHTiHzPQCVWxjdAva+Vqpyz+Lz768a20WoHLl3w+BIIzrarfJzc/dpSQSrVz6QRFJT4FnAUWCF4wnQus0mbPqBndbjvuLq8YhULNiFFU+/eCmlTUhxphaWXAOyW3klvYVfRJfDD7UYLReYUxXeHIo2y3TwfdF+vxOHUa2FPaezaNYA2dXaSfGGpOhbyYDo43ODYXxyQS3tDY9zVeLSw3uxFfYqXZwjMS4CFfAf4bClenqIVT0Wf/B+1dAfyjMatO0mkeNl1vzz4kzv4OOrQ=
 before_install:
-  - openssl enc -aes-256-cbc -d -base64
-    -in pinit-firebase-adminsdk.json.enc -out pinit-firebase-adminsdk.json
-    -K $encrypted_45046c08f53f_key -iv $encrypted_45046c08f53f_iv
-  - pip install pipenv
+- openssl enc -aes-256-cbc -d -base64 -in pinit-firebase-adminsdk.json.enc -out pinit-firebase-adminsdk.json
+  -K $TRAVIS_KEY -iv $TRAVIS_IV
+- pip install pipenv
 install: pipenv install
-
-# testing
 before_script: psql -c 'CREATE DATABASE test_db;' -U postgres
-env: DATABASE_URL=postgres://postgres@localhost/test_db
 script: python manage.py test
-
-# deploy to heroku
 deploy:
   provider: heroku
-  api_key: $HEROKU_API_KEY
+  api_key: "$HEROKU_API_KEY"
   app: pin-it-app
   on:
     repo: Pin-It/PinItServer
+dd:
+  secure: LmNAPRj/SEltKEiUDXTkT5XUkHOkCiq30tgLhH9qH3zjzZuudht6mwAHq9O+1FuIncL8gNQQaP3Y+pUstOITS+5Nrmek4tiNaLZkzv2bgcVAXyIyiErXQt+E4m4xVjGFH6PpzuBSfa5tcWhIrug226eNJQEg7fX1p5oIWH7yhzQ9tkxkU5YJsJdMgEE2kAQnNtHUGiSRw/Zd4OmsWS531oxaeJov3r6mdj83p6cSz+4awWEmED9JBcbxlsuyv9un5qQayjGvj2t5DAfR/YMwAk5weFhAe+1j+zuHzVC4Gwqn4i3z6UHbftQnFwRnMAk2Vv84Tf/Jor94QZvhIjeli8nGlW0SDAh3bpK1rcaoMNs8m5hf+zY2BZqwR6zkO3FjYQH21yErqR1b5H1/xKF2nZQPFHTiHzPQCVWxjdAva+Vqpyz+Lz768a20WoHLl3w+BIIzrarfJzc/dpSQSrVz6QRFJT4FnAUWCF4wnQus0mbPqBndbjvuLq8YhULNiFFU+/eCmlTUhxphaWXAOyW3klvYVfRJfDD7UYLReYUxXeHIo2y3TwfdF+vxOHUa2FPaezaNYA2dXaSfGGpOhbyYDo43ODYXxyQS3tDY9zVeLSw3uxFfYqXZwjMS4CFfAf4bClenqIVT0Wf/B+1dAfyjMatO0mkeNl1vzz4kzv4OOrQ=
