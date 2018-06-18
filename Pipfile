@@ -9,6 +9,7 @@ djangorestframework = "*"
 gunicorn = "*"
 django-heroku = "*"
 fcm-django = "*"
+firebase-admin = "*"
 
 [dev-packages]
 

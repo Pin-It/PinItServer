@@ -1,7 +1,11 @@
+import datetime
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from fcm_django.models import FCMDevice
+
+from firebase_admin import messaging
 
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
@@ -108,9 +112,22 @@ class DeviceLocationSerializer(serializers.ModelSerializer):
 @receiver(post_save, sender=Pin)
 def new_pin_added(sender, instance, created, **kwargs):
     data = PinSerializer(instance=instance).data
+    data = {k: str(v) for k, v in data.items()}
     devices = FCMDevice.objects.all()
-    devices.send_message(
-        title='Pin-It',
-        body='New pin added near you!',
+    message = messaging.Message(
+        android=messaging.AndroidConfig(
+            ttl=datetime.timedelta(seconds=3600),
+            priority='high',
+            notification=messaging.AndroidNotification(
+                title='Pin-It',
+                body='New pin added near you!',
+            ),
+        ),
         data=data,
     )
+    for device in devices:
+        message.token = device.registration_id
+        try:
+            messaging.send(message)
+        except Exception:
+            pass
