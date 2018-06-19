@@ -1,2 +1,2 @@
 release: python manage.py migrate; python manage.py loaddata auth
-web: gunicorn --log-file - pinit.wsgi
+web: bin/start-nginx bundle exec gunicorn --log-file - pinit.wsgi
