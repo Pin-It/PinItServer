@@ -124,11 +124,12 @@ def new_pin_added(sender, instance, created, **kwargs):
         ),
         data=data,
     )
-    registration_ids = FCMDevice.objects.values('registration_id').distinct()
+    registration_ids = (FCMDevice.objects
+                        .values_list('registration_id', flat=True)
+                        .distinct())
     for reg_id in registration_ids:
         message.token = reg_id
         try:
             messaging.send(message)
-            print('Sending message:', message)
         except Exception:
             pass
